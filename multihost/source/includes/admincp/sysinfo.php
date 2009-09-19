@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253399078 - Saturday, September 19, 2009, 06:24:38 PM EDT -0400
+	// LTE: 1253401920 - Saturday, September 19, 2009, 07:12:00 PM EDT -0400
 	// ======================================== /
 	
 	// ======================================== \
@@ -30,16 +30,26 @@
 
 	function _get_diskspace_info()
 	{
+		// Check root file system (if possible) to get total system 
+		// usage, but some hosts jail us in, so let us check options.
+		
+		$root_path = ((IS_WINDOWS_OS == true) ? "C:" : "/");
+		$check_path = ((PHP_IS_JAILED == true) ? "." : $rooat_path);
+		
 		$free_space = disk_free_space(".");
 		$total_space = disk_total_space(".");
 		
-		$used_space = ($total_space - $free_space);
-		
-		return array(
-			"used" => $used_space,
-			"free" => $free_space,
-			"total" => $total_space, 
-		);
+		if (is_float($free_space) == false || is_float($total_space) == false) {
+			return false;	
+		} else {
+			$used_space = ($total_space - $free_space);
+			
+			return array(
+				"used" => $used_space,
+				"free" => $free_space,
+				"total" => $total_space, 
+			);
+		}
 	}
 	
 	// Memory Information
@@ -66,7 +76,7 @@
 				break;
 			}
 		} else {
-			$ram_usage = shell_exec("cat /proc/meminfo");
+			$ram_usage = @shell_exec("cat /proc/meminfo");
 			
 			if ($ram_usage === false) {
 				return false;
@@ -121,7 +131,7 @@
 				$total_uptime = round(((time() - $upsince) / 86400), 1); 
 			}
 		} else {
-			$uptime_info = shell_exec("cat /proc/uptime");
+			$uptime_info = @shell_exec("cat /proc/uptime");
 			
 			if ($uptime_info === false) {
 				return false;
@@ -150,7 +160,7 @@
 				break;
 			}
 		} else {
-			$cpu_info = shell_exec("cat /proc/loadavg");
+			$cpu_info = @shell_exec("cat /proc/loadavg");
 			
 			if ($cpu_info === false) {
 				return false; 
@@ -204,7 +214,7 @@
 				break;
 			}
 		} else {
-			$version_info = shell_exec("cat /etc/issue");
+			$version_info = @shell_exec("cat /etc/issue");
 			
 			if ($version_info === false) {
 				return false;
