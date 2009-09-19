@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253235961 - Thursday, September 17, 2009, 09:06:01 PM EDT -0400
+	// LTE: 1253399078 - Saturday, September 19, 2009, 06:24:38 PM EDT -0400
 	// ======================================== /
 	
 	// ======================================== \
@@ -12,7 +12,7 @@
 	// Contributions by: Michael Manley (mmanley@nasutek.com)
 	//
 	// Unix/Linux Functions based off: Debian GNU/Linux 5.0
-	// Windows Operating System Functions based off: Windows XP
+	// Windows Operating System Functions based off: Windows XP Professional (Service Pack 3)
 	// ======================================== /
 	
 	// Running Processes
