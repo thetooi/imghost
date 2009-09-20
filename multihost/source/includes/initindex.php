@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253225114 - Thursday, September 17, 2009, 06:05:14 PM EDT -0400
+	// LTE: 1253470564 - Sunday, September 20, 2009, 02:16:04 PM EDT -0400
 	// ======================================== /
 	
 	/* List of language files editable by language editor. */
@@ -117,6 +117,7 @@
 	define("DEFAULT_ALLOWED_CHARS_LIST", "-_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
 				
 	/* Check Operating Sytem to apply correct patches. */
+	
 	define("IS_WINDOWS_OS", (PHP_OS == "WINNT"));
 	
 	/* Default MySQL Settings. */			
@@ -140,4 +141,5 @@
 	define("MYSQL_USER_SESSIONS_TABLE", "mmh_user_sessions");
 	define("MYSQL_GALLERY_ALBUMS_TABLE", "mmh_gallery_albums");
 	define("MYSQL_USER_PASSWORDS_TABLE", "mmh_user_passwords");
+	
 ?>
