@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253402696 - Saturday, September 19, 2009, 07:24:56 PM EDT -0400
+	// LTE: 1253406989 - Saturday, September 19, 2009, 08:36:29 PM EDT -0400
 	// ======================================== /
 	
 	// ======================================== \
@@ -34,7 +34,8 @@
 		// usage, but some hosts jail us in, so let us check options.
 		
 		$root_path = ((IS_WINDOWS_OS == true) ? "C:" : "/");
-		$check_path = ((PHP_IS_JAILED == true) ? "." : $rooat_path);
+		
+		$check_path = ((PHP_IS_JAILED == true || is_readable($root_path) == false) ? "." : $rooat_path);
 		
 		$free_space = disk_free_space($check_path);
 		$total_space = disk_total_space($check_path);
