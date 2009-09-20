@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253470564 - Sunday, September 20, 2009, 02:16:04 PM EDT -0400
+	// LTE: 1253473173 - Sunday, September 20, 2009, 02:59:33 PM EDT -0400
 	// ======================================== /
 	
 	/* List of language files editable by language editor. */
@@ -118,6 +118,7 @@
 				
 	/* Check Operating Sytem to apply correct patches. */
 	
+	define("IS_DARWIN_OS", (PHP_OS == "Darwin"));
 	define("IS_WINDOWS_OS", (PHP_OS == "WINNT"));
 	
 	/* Default MySQL Settings. */			

@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253415286 - Saturday, September 19, 2009, 10:54:46 PM EDT -0400
+	// LTE: 1253476748 - Sunday, September 20, 2009, 03:59:08 PM EDT -0400
 	// ======================================== /
 	
 	// ======================================== \
@@ -12,6 +12,7 @@
 	// Contributions by: Michael Manley (mmanley@nasutek.com)
 	//
 	// Unix/Linux Functions based off: Debian GNU/Linux 5.0
+	// Mac OS X (Darwin) Functions based off: Mac OS X 10.5.8 (9L30)
 	// Windows Operating System Functions based off: Windows XP Professional (Service Pack 3)
 	// ======================================== /
 	
@@ -76,6 +77,51 @@
 				
 				break;
 			}
+		} elseif (IS_DARWIN_OS == true) {
+			$ram_info = @shell_exec("sysctl hw.memsize");
+			
+			if ($ram_info === false) {
+				return false;
+			} else {
+				$ram_info = explode(" ", $ram_info);
+				
+				$ram_total = (int)$ram_info['1'];
+			}
+			
+			$ram_info = @shell_exec("vm_stat");
+			
+			if ($ram_info === false) {
+				return false;
+			} else {
+				preg_match("#Pages free:\s+([^\n]+)\.\n#", $ram_info, $matches);
+				
+				if (isset($matches['1']) == false) {
+					return false;	
+				} else {
+					$ram_free = ((int)$matches['1'] * 4096);
+					
+					$ram_used = ($ram_total - $ram_free);
+				}
+			}
+			
+			$swap_info = @shell_exec("sysctl vm.swapusage");
+			
+			if ($swap_info === false) {
+				return false;
+			} else {
+				preg_match_all("#([a-zA-Z0-9]+) = ([^M]+)#i", $swap_info, $matches);
+				
+				$variable_names = array("total" => "swap_total", "free" => "swap_free");
+				
+				foreach ($matches['1'] as $id => $value) {
+					if (array_key_exists($value, $variable_names) == true) {
+						$variable_name = $variable_names[$value];
+						$$variable_name = ($matches['2'][$id] * 1048576);
+					}
+				}
+				
+				$swap_used = ($swap_total - $swap_free);
+			}
 		} else {
 			$ram_usage = @shell_exec("cat /proc/meminfo");
 			
@@ -131,6 +177,22 @@
 			} else {
 				$total_uptime = round(((time() - $upsince) / 86400), 1); 
 			}
+		} elseif (IS_DARWIN_OS == true) {
+			$uptime_info = @shell_exec("sysctl -n kern.boottime");
+			
+			if ($uptime_info === false) {
+				return false;
+			} else {
+				preg_match("#sec = ([0-9]{10})#", $uptime_info, $matches);
+				
+				if (isset($matches['1']) === false) {
+					return false;	
+				} else {
+					$uptime_data = (time() - (int)$matches['1']);
+					
+					$total_uptime = round(($uptime_data / 86400), 1); 
+				}
+			}
 		} else {
 			$uptime_info = @shell_exec("cat /proc/uptime");
 			
@@ -159,6 +221,39 @@
 				$cpu_usage = array($mp->LoadPercentage);
 					
 				break;
+			}
+		} elseif (IS_DARWIN_OS == true) {
+			$cpu_info = @shell_exec("uptime");
+			
+			if ($cpu_info === false) {
+				return false;
+			} else {
+				preg_match("#load averages: (.*)#i", $cpu_info, $matches);
+				
+				if (isset($matches['1']) === false) {
+					return false;
+				} else {
+					$cpu_usage = explode(" ", $matches['1']);
+				}
+			}
+			
+			$cpu_info = @shell_exec("system_profiler SPHardwareDataType");
+			
+			if ($cpu_info === false) {
+				return false; 
+			} else {
+				$variable_names = array("Processor Name" => "cpu_model", "Processor Speed" => "cpu_speed");
+			
+				preg_match_all("#\s+([^\:]+):\s([^\n]+)\n#", $cpu_info, $matches);
+				
+				foreach ($matches['1'] as $id => $value) {
+					if (array_key_exists($value, $variable_names) == true) {
+						$variable_name = $variable_names[$value];
+						$$variable_name = $matches['2'][$id];
+					}
+				}
+				
+				$cpu_speed = str_replace(" GHz", NULL, $cpu_speed);
 			}
 		} else {
 			$cpu_info = @shell_exec("cat /proc/loadavg");
@@ -213,6 +308,20 @@
 				$system_version = $mp->Caption;
 					
 				break;
+			}
+		} elseif (IS_DARWIN_OS == true) {
+			$version_info = @shell_exec("system_profiler SPSoftwareDataType");
+			
+			if ($version_info === false) {
+				return false;
+			} else {
+				preg_match("#System Version: ([^\n]+)#i", $version_info, $matches);
+				
+				if (isset($matches['1']) === false) {
+					return false;
+				} else {
+					$system_version = $matches['1'];
+				}
 			}
 		} else {
 			$version_info = @shell_exec("cat /etc/issue");

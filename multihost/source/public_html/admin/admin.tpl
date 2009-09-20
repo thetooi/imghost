@@ -130,7 +130,7 @@ The following is general system information and debugging information for <a hre
             </td>
         </tr>
         <tr>
-            <td style="width: 38%;" class="tdrow1"><span>System Build:</span></td> 
+            <td style="width: 38%;" class="tdrow1" valign="top"><span>System Build:</span></td> 
             <td class="tdrow2"><pre><# SYSTEM_BUILD #></pre></td>
         </tr>
         <tr>
