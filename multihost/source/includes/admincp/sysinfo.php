@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253476748 - Sunday, September 20, 2009, 03:59:08 PM EDT -0400
+	// LTE: 1253483524 - Sunday, September 20, 2009, 05:52:04 PM EDT -0400
 	// ======================================== /
 	
 	// ======================================== \
@@ -20,11 +20,16 @@
 	
 	function _get_processes()
 	{
-		$command = ((IS_WINDOWS_OS == true) ? "tasklist" : "top -b -n 1");
-			
-		$topinfo = @shell_exec($command);
+		// Mac OS X uses different method to output "top" list instead
+		// of continuously updating it, so let's define what command it is.
 		
-		return (($topinfo === false) ? false : trim($topinfo));
+		$topcmd = ((IS_DARWIN_OS == true) ? "top -l 1" : "top -b -n 1");
+		
+		$command = ((IS_WINDOWS_OS == true) ? "tasklist" : $topcmd);
+			
+		$processlist = @shell_exec($command);
+		
+		return (($topinfo === false) ? false : trim($processlist));
 	}
 
 	// Disk Space Information
@@ -36,7 +41,16 @@
 		
 		$root_path = ((IS_WINDOWS_OS == true) ? "C:" : "/");
 		
+		// PHP being jailed is naughty and shows a lack of security on
+		// the webmaster's end, but we still have to check for it. The
+		// good thing is, PHP is finally taking steps to remove the ability
+		// for webmasters to enable safe_mode. safe_mode is now deprecated.
+		
 		$check_path = ((PHP_IS_JAILED == true || is_readable($root_path) == false) ? "." : $root_path);
+		
+		// The more functions PHP makes native for outputting system information
+		// such as the diskspace functions shown below, means less work-arounds for
+		// differences found in each Operating System that might be used by server.
 		
 		$free_space = disk_free_space($check_path);
 		$total_space = disk_total_space($check_path);
@@ -59,14 +73,20 @@
 	function _get_memory_info()
 	{
 		if (IS_WINDOWS_OS == true) {
+			// Get Memory Information for Windows Operating System
+		
 			$obj = new COM('winmgmts:{impersonationLevel=impersonate}//./root/cimv2');
 				
+			// Total Available Memory
+			
 			foreach ($obj->instancesof("Win32_ComputerSystem") as $mp) {
 				$ram_total = $mp->TotalPhysicalMemory;
 					
 				break;
 			}
 				
+			// Free Memory and Swap Memory
+			
 			foreach ($obj->instancesof("Win32_OperatingSystem") as $mp) {
 				$ram_free = $mp->FreePhysicalMemory;
 				$swap_free = $mp->FreeVirtualMemory;
@@ -78,6 +98,10 @@
 				break;
 			}
 		} elseif (IS_DARWIN_OS == true) {
+			// Get Memory Information for Mac OS X (Darwin)
+			
+			// Total Available Memory
+			
 			$ram_info = @shell_exec("sysctl hw.memsize");
 			
 			if ($ram_info === false) {
@@ -87,6 +111,8 @@
 				
 				$ram_total = (int)$ram_info['1'];
 			}
+			
+			// Free Memory
 			
 			$ram_info = @shell_exec("vm_stat");
 			
@@ -103,6 +129,8 @@
 					$ram_used = ($ram_total - $ram_free);
 				}
 			}
+			
+			// Total and Free Swap Memory
 			
 			$swap_info = @shell_exec("sysctl vm.swapusage");
 			
@@ -123,6 +151,8 @@
 				$swap_used = ($swap_total - $swap_free);
 			}
 		} else {
+			// Get Memory Information for Linux/Unix Operating Systems
+			
 			$ram_usage = @shell_exec("cat /proc/meminfo");
 			
 			if ($ram_usage === false) {
@@ -146,9 +176,13 @@
 			}
 		}
 		
+		// Check Reported Memory Data
+		
 		if (isset($ram_total, $ram_free, $swap_free, $swap_total) === false) {
 			return false;
 		} else {
+			// Output Memory Data
+			
 			return array(
 				"ram" => array(
 					"free" => $ram_free,
@@ -170,6 +204,8 @@
 	function _get_uptime_info()
 	{
 		if (IS_WINDOWS_OS == true) {
+			// Get Uptime Information for Windows Operating System
+			
 			$upsince = @filemtime("C:\pagefile.sys");
 			
 			if ($upsince === false) {
@@ -178,6 +214,8 @@
 				$total_uptime = round(((time() - $upsince) / 86400), 1); 
 			}
 		} elseif (IS_DARWIN_OS == true) {
+			// Get Uptime Information for Mac OS X (Darwin)
+			
 			$uptime_info = @shell_exec("sysctl -n kern.boottime");
 			
 			if ($uptime_info === false) {
@@ -194,6 +232,8 @@
 				}
 			}
 		} else {
+			// Get Uptime Information for Linux/Unix Operating Systems
+			
 			$uptime_info = @shell_exec("cat /proc/uptime");
 			
 			if ($uptime_info === false) {
@@ -205,6 +245,8 @@
 			}
 		}
 		
+		// Output Uptime Data
+		
 		return (int)$total_uptime;
 	}
 	
@@ -213,6 +255,8 @@
 	function _get_cpu_info()
 	{
 		if (IS_WINDOWS_OS == true) {
+			// Get Processor Information for Windows Operating System
+			
 			$obj = new COM('winmgmts:{impersonationLevel=impersonate}//./root/cimv2');
 				
 			foreach ($obj->instancesof("Win32_Processor") as $mp) {
@@ -223,19 +267,19 @@
 				break;
 			}
 		} elseif (IS_DARWIN_OS == true) {
-			$cpu_info = @shell_exec("uptime");
+			// Get Processor Information for Mac OS X (Darwin)
 			
-			if ($cpu_info === false) {
-				return false;
-			} else {
-				preg_match("#load averages: (.*)#i", $cpu_info, $matches);
-				
-				if (isset($matches['1']) === false) {
-					return false;
-				} else {
-					$cpu_usage = explode(" ", $matches['1']);
-				}
+			// sys_getloadavg() is one of those functions made native by PHP
+			// By making it native they made it easier to get load average for
+			// the Operating System without having to do specific commands.
+			
+			$cpu_usage = sys_getloadavg();
+			
+			foreach ($cpu_usage as $id => $value) {
+				$cpu_usage[$id] = round($value, 2);
 			}
+			
+			// Get Processor Model and Speed
 			
 			$cpu_info = @shell_exec("system_profiler SPHardwareDataType");
 			
@@ -256,13 +300,17 @@
 				$cpu_speed = str_replace(" GHz", NULL, $cpu_speed);
 			}
 		} else {
-			$cpu_info = @shell_exec("cat /proc/loadavg");
+			// Get Processor Information for Linux/Unix Operating Systems
 			
-			if ($cpu_info === false) {
-				return false; 
-			} else {
-				$cpu_usage = explode(" ", $cpu_info, 4);
+			// Get Load Average
+			
+			$cpu_usage = sys_getloadavg();
+			
+			foreach ($cpu_usage as $id => $value) {
+				$cpu_usage[$id] = round($value, 2);
 			}
+			
+			// Get Processor Model and Speed
 			
 			$cpu_info = shell_exec("cat /proc/cpuinfo -T");
 			
@@ -286,9 +334,13 @@
 			}
 		}		
 		
+		// Check Processor Data
+		
 		if (isset($cpu_speed, $cpu_model, $cpu_usage) === false) {
 			return false;	
 		} else {
+			// Output Processor Data
+			
 			return array(
 				"load" => $cpu_usage,
 				"model" => $cpu_model,
@@ -302,6 +354,8 @@
 	function _get_system_name()
 	{
 		if (IS_WINDOWS_OS == true) {
+			// Get System Version for Windows Operating System
+			
 			$obj = new COM('winmgmts:{impersonationLevel=impersonate}//./root/cimv2');
 				
 			foreach ($obj->instancesof("Win32_OperatingSystem") as $mp) {
@@ -310,6 +364,8 @@
 				break;
 			}
 		} elseif (IS_DARWIN_OS == true) {
+			// Get System Version for Mac OS X (Darwin)
+			
 			$version_info = @shell_exec("system_profiler SPSoftwareDataType");
 			
 			if ($version_info === false) {
@@ -324,6 +380,8 @@
 				}
 			}
 		} else {
+			// Get System Version for Linux/Unix Operating Systems
+			
 			$version_info = @shell_exec("cat /etc/issue");
 			
 			if ($version_info === false) {
@@ -332,6 +390,8 @@
 				$system_version = str_replace(array("\\n", "\\l"), NULl, trim($version_info));
 			}
 		}	
+		
+		// Output System Version
 		
 		return ((isset($system_version) === false) ? false : (string)$system_version);
 	}
