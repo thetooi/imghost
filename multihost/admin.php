@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253384515 - Saturday, September 19, 2009, 02:21:55 PM EDT -0400
+	// LTE: 1253515339 - Monday, September 21, 2009, 02:42:19 AM EDT -0400
 	// ======================================== /
 	
 	require_once "./source/includes/data.php";
@@ -184,6 +184,18 @@
 			}
 			break;
 		case "sysinfo":
+		
+			//
+			// This System Information page started out displaying just basic
+			// information, and now it displays extensive information about the
+			// server that Mihalism Multi Host is running ontop of.
+			//
+			// Why a normal user would need this type of information is questionable,
+			// but it does help tons when debugging errors because the page outputs all
+			// constants defined by Mihalism Multi Host and all loaded extensions beside
+			// the information about the server. So everything is in one place. 
+			//
+		
 			$cpu_info = _get_cpu_info();
 			$memory_info = _get_memory_info();
 			$disk_use = _get_diskspace_info();
@@ -266,6 +278,15 @@
 			$versioncheck = unserialize($mmhclass->funcs->get_http_content("http://mihalismmh.googlecode.com/svn/trunk/information/versioninfo.txt", 1));
 		
 			$mmhclass->templ->templ_globals['new_version'] = (($versioncheck !== false && version_compare($versioncheck['version'], $mmhclass->info->version, ">") == true) ? true : false);
+			
+			if (APACHE_IS_AVAILABLE == true) {
+				$apache_modules = apache_get_modules();
+				
+				if (in_array("mod_rewrite", $apache_modules) === false) {
+					// Maybe we should actually add something here?
+					// A lot of servers are CGI anyways so wont get this far. 
+				}
+			}
 			
 			$mmhclass->templ->templ_vars[] = array(	   
 				"EMAIL_IN" => $setting['email_in'],

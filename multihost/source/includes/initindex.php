@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253473173 - Sunday, September 20, 2009, 02:59:33 PM EDT -0400
+	// LTE: 1253513791 - Monday, September 21, 2009, 02:16:31 AM EDT -0400
 	// ======================================== /
 	
 	/* List of language files editable by language editor. */
@@ -57,6 +57,7 @@
 	
 	/* Versions. */
 	
+	define("PHPSAPI", PHP_SAPI);
 	define("COREVERSION", "5.0.3");
 	define("PHPVERSION", PHP_VERSION);
 	
@@ -102,6 +103,7 @@
 	
 	define("EXIF_IS_AVAILABLE", function_exists("exif_imagetype"));
 	define("FILTERS_ARE_AVAILABLE", function_exists("filter_var"));
+	define("APACHE_IS_AVAILABLE", function_exists("apache_get_modules"));
 	
 	/* Serialized list of errors to not log. */
 	

@@ -1163,7 +1163,7 @@ The following are all <a href="http://www.php.net/errorfunc">PHP errors</a> that
             </endif>
             
 			<tr>
-				<td style="width: 38%;" class="tdrow1"><span>Website Name:</span> <br /> <div class="explain">The photoshop file of the text in the site banner can be found <a href="css/images/site_logo.psd">here</a>. Once edited, save as <strong>site_logo.png</strong> and upload to the <em>css/images/</em> folder.</div></td> 
+				<td style="width: 38%;" class="tdrow1"><span>Website Name:</span> <br /> <div class="explain">The photoshop file of the text in the global banner can be found <a href="css/images/site_logo.psd">here</a>. Once edited, save as <strong>site_logo.png</strong> and upload to the <a href="css/images">css/images/</a> folder. The font <a href="http://www.ascenderfonts.com/font/candara-bold.aspx">Candara Bold</a> is required to edit the text.</div></td> 
 				<td class="tdrow2" valign="top"><input type="text" style="width: 300px;" class="input_field" name="site_name" value="<# SITE_NAME #>" /></td>
 			</tr>
 			<tr>
@@ -1175,11 +1175,11 @@ The following are all <a href="http://www.php.net/errorfunc">PHP errors</a> that
 				<td class="tdrow2" valign="top"><input type="text" class="input_field" style="width: 300px;" name="user_file_extensions" value="<# USER_FILE_EXTENSIONS #>" /></td>
 			</tr>
 			<tr>
-				<td style="width: 38%;" class="tdrow1"><span>Max Filesize:</span> <br /> <div class="explain">The maximum allowed filesize per file for Guests. There are 1,048,576 bytes for every one megabyte. <a href="http://www.t1shopper.com/tools/calculate/">Conversion Calculator</a>.</div></td> 
+				<td style="width: 38%;" class="tdrow1"><span>Max Filesize:</span> <br /> <div class="explain">The maximum allowed filesize per file for Guests. There are exactly 1048576 Bytes for every one Megabyte. <a href="http://www.t1shopper.com/tools/calculate/">Conversion Calculator</a>.</div></td> 
 				<td class="tdrow2" valign="top"><input type="text" class="input_field" style="width: 300px;" name="max_filesize" value="<# MAX_FILESIZE #>" /> Bytes</td>
 			</tr>
 			<tr>
-				<td style="width: 38%;" class="tdrow1"><span>Max Filesize (Users):</span> <br /> <div class="explain">The maximum allowed filesize per file for registered users. There are 1,048,576 bytes for every one megabyte. <a href="http://www.t1shopper.com/tools/calculate/">Conversion Calculator</a>.</div></td> 
+				<td style="width: 38%;" class="tdrow1"><span>Max Filesize (Users):</span> <br /> <div class="explain">The maximum allowed filesize per file for registered users. There are exactly 1048576 Bytes for every one Megabyte. <a href="http://www.t1shopper.com/tools/calculate/">Conversion Calculator</a>.</div></td> 
 				<td class="tdrow2" valign="top"><input type="text" class="input_field" style="width: 300px;" name="user_max_filesize" value="<# USER_MAX_FILESIZE #>" /> Bytes</td>
 			</tr>
 			<tr>
@@ -1217,11 +1217,11 @@ The following are all <a href="http://www.php.net/errorfunc">PHP errors</a> that
 				</td>
 			</tr>
 			<tr>
-				<td style="width: 38%;" class="tdrow1"><span>Thumbnail Height:</span> <br /> <div class="explain">Maximum height of a generated thumbnail.</div></td> 
+				<td style="width: 38%;" class="tdrow1"><span>Thumbnail Height:</span> <br /> <div class="explain">Maximum height of a generated thumbnail in proportion to width.</div></td> 
 				<td class="tdrow2" valign="top"><input type="text" style="width: 300px;" class="input_field" name="thumbnail_height" value="<# THUMBNAIL_HEIGHT #>" /> Pixels</td>
 			</tr>
 			<tr>
-				<td style="width: 38%;" class="tdrow1"><span>Thumbnail Width:</span> <br /> <div class="explain">Maximum width of a generated thumbnail.</div></td> 
+				<td style="width: 38%;" class="tdrow1"><span>Thumbnail Width:</span> <br /> <div class="explain">Maximum width of a generated thumbnail in proportion to height.</div></td> 
 				<td class="tdrow2" valign="top"><input type="text" style="width: 300px;" class="input_field" name="thumbnail_width" value="<# THUMBNAIL_WIDTH #>" /> Pixels</td>
 			</tr>
 			<tr>
