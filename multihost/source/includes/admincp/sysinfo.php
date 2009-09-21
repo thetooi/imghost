@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1253483524 - Sunday, September 20, 2009, 05:52:04 PM EDT -0400
+	// LTE: 1253491684 - Sunday, September 20, 2009, 08:08:04 PM EDT -0400
 	// ======================================== /
 	
 	// ======================================== \
@@ -276,7 +276,7 @@
 			$cpu_usage = sys_getloadavg();
 			
 			foreach ($cpu_usage as $id => $value) {
-				$cpu_usage[$id] = round($value, 2);
+				$cpu_usage[$id] = number_format($value, 2);
 			}
 			
 			// Get Processor Model and Speed
@@ -307,7 +307,7 @@
 			$cpu_usage = sys_getloadavg();
 			
 			foreach ($cpu_usage as $id => $value) {
-				$cpu_usage[$id] = round($value, 2);
+				$cpu_usage[$id] = number_format($value, 2);
 			}
 			
 			// Get Processor Model and Speed
