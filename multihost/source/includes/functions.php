@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1252958872 - Monday, September 14, 2009, 04:07:52 PM EDT -0400
+	// LTE: 1253908615 - Friday, September 25, 2009, 03:56:55 PM EDT -0400
 	// ======================================== /
 	
 	class mmhclass_core_functions
@@ -47,6 +47,11 @@
 		function write_file($filename, $content, $flags = NULL)
 		{
 			return @file_put_contents($filename, $content, $flags);
+		}
+		
+		function append_file($filename, $content)
+		{
+			return $this->write_file($filename, $content, FILE_APPEND);	
 		}
 		
 		function create_tempfile($content)
@@ -127,6 +132,7 @@
 		function sanitize_string($string) 
 		{
 			// The characters to retain are from: http://www.php.net/manual/en/filter.filters.sanitize.php
+			
 			return preg_replace("/[^a-zA-Z0-9\!#\$%&'\*\+\-\=\?\^_`\{\|\}~@\.\[\]\/\s]/", NULL, $string);	
 		}
 		
@@ -143,7 +149,9 @@
 				if ($this->is_url($url, false) == true) {
 					if ($headers = get_headers($url, 1)) {
 						if (isset($headers['Location']) == false) {
-							return array_merge($headers, array("Address" => $url));
+							$headers['Address'] = $url;
+							
+							return $headers;
 						} else {
 							return $this->get_headers($headers['Location'], ($redirects + 1));
 						}
@@ -166,6 +174,7 @@
 								
 								if (preg_match("#^Location\: ([^\s]+)$#i", $header) == true) {
 									$new_url = str_replace("Location: ", NULL, $header);
+									
 									$theheaders = $this->get_headers($new_url, ($redirects + 1));	
 								} else {
 									$header = explode(":", $header);
@@ -178,6 +187,7 @@
 							}
 							
 							$theheaders['Address'] = $url; 
+							
 							curl_close($curl_handle); 	
 							
 							return $theheaders;
