@@ -22,7 +22,7 @@ You will need to have the following to allow Mihalism Multi Host to operate:
 </span>
 <br /><br />
 
-<b style="color: #F00;">Warning:</b> Using this installer will erase any already existing Mihalism Multi Host installation.
+<b style="color: #F00;">WARNING:</b> Using this installer will erase any already existing Mihalism Multi Host installation.
 <br /><br />
 Click the button shown below to be taken to the installation form.
 <br /><br />
@@ -32,7 +32,7 @@ Click the button shown below to be taken to the installation form.
 
 <b>License</b>: Mihalism Multi Host is released under the GNU Version 3 General Public License. <br />
 <span style="margin-left: 50px;">By using the script you agree to the terms and conditions set forth in the License. </span><br />
-<span style="margin-left: 50px;">A copy of the license is packaged with the script in the file <a href="./LICENSE.txt">LICENSE.txt</a>.</span> 
+<span style="margin-left: 50px;">A copy of the license is packaged with the script in the file <a href="./help/LICENSE.pdf">LICENSE.pdf</a>.</span> 
 <br /><br />
 
 <b>Copyright:</b> Mihalism Multi Host is Copyright &copy; 2007, 2008, 2009 <a href="http://www.mihalism.net">Mihalism Technologies</a>.

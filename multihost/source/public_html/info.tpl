@@ -12,8 +12,6 @@ as a chat client or message board. Just to make it even more easier, <# SITE_NAM
 you have to do is copy and paste, and the image is instantly viewable. 
 <br /><br />
 That is all there is to it! If you have any suggestions, comments, concerns, or cries for help, please be sure to <a href="contact.php?act=contact_us">email us</a>.
-<br /><br />
-<# SITE_NAME #> is produly powered by <a href="http://www.mihalism.net/multihost/">Mihalism Multi Host</a>.
 
 </template>
 <!-- END: ABOUT US PAGE -->

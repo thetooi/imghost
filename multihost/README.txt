@@ -6,5 +6,6 @@
 	README.pdf - General/Helpful Information
 	INSTALL.pdf - Alias for README.pdf
 	TODO.pdf - List of Feature Ideas
+	TRANSLATE.pdf - Information about Translating Mihalism Multi Host
 	UPGRADE.pdf - Upgrade Information
 	
