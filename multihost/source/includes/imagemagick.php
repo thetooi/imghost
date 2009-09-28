@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1252770328 - Saturday, September 12, 2009, 11:45:28 AM EDT -0400
+	// LTE: 1254124378 - Monday, September 28, 2009, 03:52:58 AM EDT -0400
 	// ======================================== /
 	
 	class mmhclass_image_functions
@@ -256,7 +256,7 @@
 
 		// A lot of code, for thumbnails. 
 		
-		function create_thumbnail($filename, $save2disk = true)
+		function create_thumbnail($filename, $save2disk = true, $resize_type = 0)
 		{
 			$filename = $this->basename($filename);
 				
@@ -265,7 +265,30 @@
 				$thumbnail = $this->thumbnail_name($filename);
 				
 				if ($save2disk == true) {
-					$thumbnail_size = $this->scale($filename, $this->mmhclass->info->config['thumbnail_width'], $this->mmhclass->info->config['thumbnail_height']);
+					// Seemed easier to build the image resize upload  
+					// option into the already established thumbnail function 
+					// instead of waisting time trying to chop it up for new one.
+					
+					if ($resize_type > 0 && $resize_type <= 8) {
+						$thumbnail = $filename;
+						
+						$this->mmhclass->info->config['advanced_thumbnails'] = false;
+					
+						$size_values = array(
+							1 => array("w" => 100, "h" => 75),
+							2 => array("w" => 150, "h" => 112),
+							3 => array("w" => 320, "h" => 240),
+							4 => array("w" => 640, "h" => 480),
+							5 => array("w" => 800, "h" => 600),
+							6 => array("w" => 1024, "h" => 768),
+							7 => array("w" => 1280, "h" => 1024),
+							8 => array("w" => 1600, "h" => 1200),	
+						);
+						
+						$thumbnail_size = $size_values[$resize_type];
+					} else {
+						$thumbnail_size = $this->scale($filename, $this->mmhclass->info->config['thumbnail_width'], $this->mmhclass->info->config['thumbnail_height']);
+					}
 					
 					if ($this->manipulator == "imagick") {
 						// New Design of Advanced Thumbnails created by: IcyTexx - http://www.hostili.com
@@ -355,13 +378,19 @@
 						if (in_array($extension, array("png", "gif", "jpg", "jpeg")) == true) {	
 							$function_extension = str_replace("jpg", "jpeg", $extension);
 							$image_function = "imagecreatefrom{$function_extension}";
-							$image = $image_function($this->mmhclass->info->root_path.$this->mmhclass->info->config['upload_path'].$filename);
 							
+							$image = $image_function($this->mmhclass->info->root_path.$this->mmhclass->info->config['upload_path'].$filename);
 							$imageinfo = $this->get_image_info($this->mmhclass->info->root_path.$this->mmhclass->info->config['upload_path'].$this->basename($filename));
+							
 							$thumbnail_image = imagecreatetruecolor($thumbnail_size['w'], $thumbnail_size['h']);
-							imagecopyresampled($thumbnail_image, $image, 0, 0, 0, 0, $thumbnail_size['w'], $thumbnail_size['h'], $imageinfo['width'], $imageinfo['height']);
-	
+							imagecolortransparent($thumbnail_image, imagecolorallocate($thumbnail_image, 0, 0, 0));
+							
+							imagealphablending($thumbnail_image, false);
+							imagesavealpha($thumbnail_image, true);
+							
+							imagecopyresized($thumbnail_image, $image, 0, 0, 0, 0, $thumbnail_size['w'], $thumbnail_size['h'], $imageinfo['width'], $imageinfo['height']);
 							$image_savefunction = sprintf("image%s", (($this->mmhclass->info->config['thumbnail_type'] == "jpeg") ? "jpeg" : "png"));
+							
 							$image_savefunction($thumbnail_image, $this->mmhclass->info->root_path.$this->mmhclass->info->config['upload_path'].$thumbnail);
 							chmod($this->mmhclass->info->root_path.$this->mmhclass->info->config['upload_path'].$thumbnail, 0644);
 							

@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1252857100 - Sunday, September 13, 2009, 11:51:40 AM EDT -0400
+	// LTE: 1254125353 - Monday, September 28, 2009, 04:09:13 AM EDT -0400
 	// ======================================== /
 	
 	require_once "./source/includes/data.php";
@@ -90,6 +90,7 @@
 									"WEBPAGE_URL" => $webpage_headers['Address'],
 									"UPLOAD_TO" => $mmhclass->input->post_vars['upload_to'],
 									"UPLOAD_TYPE" => $mmhclass->input->post_vars['upload_type'],
+									"IMAGE_RESIZE" => $mmhclass->input->post_vars['image_resize'],
 									"PRIVATE_UPLOAD" => $mmhclass->input->post_vars['private_upload'],
 									"WEBPAGE_URL_SMALL" => $mmhclass->funcs->shorten_url($webpage_headers['Address'], 60),
 								);
@@ -128,6 +129,10 @@
 							} elseif ($mmhclass->funcs->write_file($mmhclass->info->root_path.$mmhclass->info->config['upload_path'].$filename, $file_content) == false) {
 								$uploadinfo[]['error'] = array(sprintf($mmhclass->lang['010'], $origname), "error");
 							} else {
+								if ($mmhclass->input->post_vars['image_resize'] > 0 && $mmhclass->input->post_vars['image_resize'] <= 8) {
+									$mmhclass->image->create_thumbnail($filename, true, $mmhclass->input->post_vars['image_resize']);
+								}
+								
 								chmod($mmhclass->info->root_path.$mmhclass->info->config['upload_path'].$filename, 0644);
 								
 								$mmhclass->db->query("INSERT INTO `[1]` (`filename`, `total_rating`, `total_votes`, `voted_by`, `gallery_id`, `is_private`) VALUES ('[2]', '0', '0', '', '[3]', '[4]');", array(MYSQL_FILE_RATINGS_TABLE, $filename, $mmhclass->info->user_data['user_id'], $mmhclass->input->post_vars['private_upload']));
@@ -173,6 +178,10 @@
 							} elseif (move_uploaded_file($mmhclass->input->file_vars['userfile']['tmp_name'][$i], $mmhclass->info->root_path.$mmhclass->info->config['upload_path'].$filename) == false) {
 								$uploadinfo[]['error'] = array(sprintf($mmhclass->lang['010'], $origname), "error");
 							} else {
+								if ($mmhclass->input->post_vars['image_resize'] > 0 && $mmhclass->input->post_vars['image_resize'] <= 8) {
+									$mmhclass->image->create_thumbnail($filename, true, $mmhclass->input->post_vars['image_resize']);
+								}
+								
 								chmod($mmhclass->info->root_path.$mmhclass->info->config['upload_path'].$filename, 0644);
 								
 								$mmhclass->db->query("INSERT INTO `[1]` (`filename`, `total_rating`, `total_votes`, `voted_by`, `gallery_id`, `is_private`) VALUES ('[2]', '0', '0', '', '[3]', '[4]');", array(MYSQL_FILE_RATINGS_TABLE, $filename, $mmhclass->info->user_data['user_id'], $mmhclass->input->post_vars['private_upload']));

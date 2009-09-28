@@ -9,4 +9,3 @@
 	TODO.pdf       - List of Feature Ideas for Future Releases of Mihalism Multi Host
 	TRANSLATE.pdf  - Information on how to Translate Mihalism Multi Host
 	UPGRADE.pdf    - Information on Upgrading Mihalism Multi Host
-	CREDIT.pdf     - Special Thanks

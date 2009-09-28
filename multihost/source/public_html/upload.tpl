@@ -138,6 +138,7 @@ Link to Us:
         <input type="hidden" name="upload_to" value="<# UPLOAD_TO #>" />
         <input type="hidden" name="url_upload_type" value="normal_upload" />
         <input type="hidden" name="upload_type" value="<# UPLOAD_TYPE #>" />
+    	<input type="hidden" name="image_resize" value="<# IMAGE_RESIZE #>" />
     	<input type="hidden" name="private_upload" value="<# PRIVATE_UPLOAD #>" />
         
         <div class="table_border">

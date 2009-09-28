@@ -3,7 +3,7 @@
 // Version: 5.0.0
 // Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 // License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-// LTE: 1253050330 - Tuesday, September 15, 2009, 05:32:10 PM EDT -0400
+// LTE: 1254138278 - Monday, September 28, 2009, 07:44:38 AM EDT -0400
 // ======================================= */
 
 * {
@@ -218,6 +218,14 @@ th.tdrow1 {
 
 .text_align_center {
 	text-align: center;
+}
+
+#upload_options {
+	width: 350px;
+	padding: 5px;
+	margin-left: 12px;
+	background: #f1f1f1;
+	border: 1px dotted #333;
 }
 
 .nav_menu {

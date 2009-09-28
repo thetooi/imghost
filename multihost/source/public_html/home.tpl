@@ -18,34 +18,54 @@ Max filesize is set at: <# MAX_FILESIZE #> per image file.
         
 		<span id="more_file_inputs"></span> <br />
         
-        <span id="upoptions_hidden">
+        <div id="upoptions_hidden">
+       		<img src="css/images/arrowhide.png" alt="Show Available Options" onclick="toggle('upoptions_hidden'); toggle('upoptions_shown');" />
         	Uploading Options: <a href="javascript:void(0);" onclick="toggle('upoptions_hidden'); toggle('upoptions_shown');">Show Available Options</a>
-        </span>
+        </div>
         
-        <span id="upoptions_shown" style="display: none;">
-       		Uploading Options: <a href="javascript:void(0);" onclick="toggle('upoptions_hidden'); toggle('upoptions_shown');">Hide Available Options</a>
+        <div id="upoptions_shown" style="display: none;">
+       		<img src="css/images/arrowshow.png" alt="Hide Available Options" onclick="toggle('upoptions_hidden'); toggle('upoptions_shown');" />
+            Uploading Options: <a href="javascript:void(0);" onclick="toggle('upoptions_hidden'); toggle('upoptions_shown');">Hide Available Options</a>
             <br /><br />
             
-            <if="$mmhclass->info->is_user == true && $mmhclass->templ->templ_globals['hide_upload_to'] == false">
-            	Upload to: 
-            	<select name="upload_to">
-               		<option value="0" selected="selected">Root Album</option>
+            <div id="upload_options">
+                <if="$mmhclass->info->is_user == false || $mmhclass->info->is_user == true && $mmhclass->info->user_data['private_gallery'] == false">
+                    &bull; Upload Type: <input type="radio" name="private_upload" value="0" checked="checked" /> Public <input type="radio" name="private_upload" value="1" /> Private
+                    <br /><br />
+                </endif>
+                
+                &bull; Output Layout: <input type="radio" name="upload_type" value="standard" <# STANDARD_UPLOAD_YES #> /> <span onclick="toggle_lightbox('index.php?layoutprev=std', 'upload_layout_preview_lightbox');" title="Click to preview" class="help">Standard</span> <input type="radio" name="upload_type" value="normal-boxed" <# BOXED_UPLOAD_YES #> /> <span onclick="toggle_lightbox('index.php?layoutprev=bx', 'upload_layout_preview_lightbox');" title="Click to preview" class="help">Boxed</span>
+                <br /><br />
+                
+                <if="$mmhclass->info->is_user == true && $mmhclass->templ->templ_globals['hide_upload_to'] == false">
+                    &bull; Upload To: 
+                    <select name="upload_to" style="width: 220px;">
+                        <option value="0" selected="selected">Root Album</option>
+                        
+                        <while id="albums_pulldown_whileloop">
+                            <option value="<# ALBUM_ID #>">&bull; <# ALBUM_NAME #></option>
+                        </endwhile>
+                    </select>
+                    <br /><br />
+                </endif>
+                
+                &bull; Resize Images: 
+                <select name="image_resize" style="width: 220px;">
+                    <option value="0" selected="selected">Do Not Resize</option>
                     
-                    <while id="albums_pulldown_whileloop">
-                   		<option value="<# ALBUM_ID #>">&bull; <# ALBUM_NAME #></option>
-                    </endwhile>
-            	</select>
-                <br /><br />
-			</endif>
-            
-            <if="$mmhclass->info->is_user == false || $mmhclass->info->is_user == true && $mmhclass->info->user_data['private_gallery'] == false">
-                Upload Type: <input type="radio" name="private_upload" value="0" checked="checked" /> Public <input type="radio" name="private_upload" value="1" /> Private
-                <br /><br />
-            </endif>
-            
-           Output Layout: <input type="radio" name="upload_type" value="standard" <# STANDARD_UPLOAD_YES #> /> <span onclick="toggle_lightbox('index.php?layoutprev=std', 'upload_layout_preview_lightbox');" title="Click to preview" class="help">Standard</span> <input type="radio" name="upload_type" value="normal-boxed" <# BOXED_UPLOAD_YES #> /> <span onclick="toggle_lightbox('index.php?layoutprev=bx', 'upload_layout_preview_lightbox');" title="Click to preview" class="help">Boxed</span>
-        </span>
-        <br /><br />
+                    <option disabled="disabled">----</option>
+                    
+                    <option value="1">100x75 (avatar)</option>
+                    <option value="2">150x112 (thumbnail)</option>
+                    <option value="3">320x240 (for websites and email)</option>
+                    <option value="4">640x480 (for message boards)</option>
+                    <option value="5">800x600 (15-inch monitor)</option>
+                    <option value="6">1024x768 (17-inch monitor)</option>
+                    <option value="7">1280x1024 (19-inch monitor)</option>
+                    <option value="8">1600x1200 (21-inch monitor)</option>
+                </select>
+         	</div>
+        </div><br />
         
 		<input class="button1" type="button" value="Add More Files" onclick="new_file_input();" /> 
 		<input class="button1" type="button" value="Start Uploading" onclick="toggle_lightbox('index.php?act=upload_in_progress', 'progress_bar_lightbox'); $('form[id=upload_form]').submit();" />
@@ -125,34 +145,54 @@ Max filesize is set at: <# MAX_FILESIZE #> per image file. <span id="more_instru
         </select>
         <br /><br />
         
-        <span id="upoptions_hidden">
+        <div id="upoptions_hidden">
+       		<img src="css/images/arrowhide.png" alt="Show Available Options" onclick="toggle('upoptions_hidden'); toggle('upoptions_shown');" />
         	Uploading Options: <a href="javascript:void(0);" onclick="toggle('upoptions_hidden'); toggle('upoptions_shown');">Show Available Options</a>
-        </span>
+        </div>
         
-        <span id="upoptions_shown" style="display: none;">
+        <div id="upoptions_shown" style="display: none;">
+       		<img src="css/images/arrowshow.png" alt="Hide Available Options" onclick="toggle('upoptions_hidden'); toggle('upoptions_shown');" />
        		Uploading Options: <a href="javascript:void(0);" onclick="toggle('upoptions_hidden'); toggle('upoptions_shown');">Hide Available Options</a>
             <br /><br />
             
-            <if="$mmhclass->info->is_user == true && $mmhclass->templ->templ_globals['hide_upload_to'] == false">
-            	Upload to: 
-            	<select name="upload_to">
-               		<option value="0" selected="selected">Root Album</option>
+            <div id="upload_options">
+                <if="$mmhclass->info->is_user == false || $mmhclass->info->is_user == true && $mmhclass->info->user_data['private_gallery'] == false">
+                    &bull; Upload Type: <input type="radio" name="private_upload" value="0" checked="checked" /> Public <input type="radio" name="private_upload" value="1" /> Private
+                    <br /><br />
+                </endif>
+                
+                &bull; Output Layout: <input type="radio" name="upload_type" value="url-standard" <# STANDARD_UPLOAD_YES #> /> <span onclick="toggle_lightbox('index.php?layoutprev=std', 'upload_layout_preview_lightbox');" title="Click to preview" class="help">Standard</span> <input type="radio" name="upload_type" value="url-boxed" <# BOXED_UPLOAD_YES #> /> <span onclick="toggle_lightbox('index.php?layoutprev=bx', 'upload_layout_preview_lightbox');" title="Click to preview" class="help">Boxed</span>
+                <br /><br />
                     
-                    <while id="albums_pulldown_whileloop">
-                   		<option value="<# ALBUM_ID #>">&bull; <# ALBUM_NAME #></option>
-                    </endwhile>
-            	</select>
-                <br /><br />
-			</endif>
-            
-            <if="$mmhclass->info->is_user == false || $mmhclass->info->is_user == true && $mmhclass->info->user_data['private_gallery'] == false">
-                Upload Type: <input type="radio" name="private_upload" value="0" checked="checked" /> Public <input type="radio" name="private_upload" value="1" /> Private
-                <br /><br />
-            </endif>
-            
-           Output Layout: <input type="radio" name="upload_type" value="url-standard" <# STANDARD_UPLOAD_YES #> /> <span onclick="toggle_lightbox('index.php?layoutprev=std', 'upload_layout_preview_lightbox');" title="Click to preview" class="help">Standard</span> <input type="radio" name="upload_type" value="url-boxed" <# BOXED_UPLOAD_YES #> /> <span onclick="toggle_lightbox('index.php?layoutprev=bx', 'upload_layout_preview_lightbox');" title="Click to preview" class="help">Boxed</span>
-        </span>
-        <br /><br />
+                <if="$mmhclass->info->is_user == true && $mmhclass->templ->templ_globals['hide_upload_to'] == false">
+                    &bull; Upload to: 
+                    <select name="upload_to" style="width: 220px;">
+                        <option value="0" selected="selected">Root Album</option>
+                        
+                        <while id="albums_pulldown_whileloop">
+                            <option value="<# ALBUM_ID #>">&bull; <# ALBUM_NAME #></option>
+                        </endwhile>
+                    </select>
+                    <br /><br />
+                </endif>
+                
+                &bull; Resize Images: 
+                <select name="image_resize" style="width: 220px;">
+                    <option value="0" selected="selected">Do Not Resize</option>
+                    
+                    <option disabled="disabled">----</option>
+                    
+                    <option value="1">100x75 (avatar)</option>
+                    <option value="2">150x112 (thumbnail)</option>
+                    <option value="3">320x240 (for websites and email)</option>
+                    <option value="4">640x480 (for message boards)</option>
+                    <option value="5">800x600 (15-inch monitor)</option>
+                    <option value="6">1024x768 (17-inch monitor)</option>
+                    <option value="7">1280x1024 (19-inch monitor)</option>
+                    <option value="8">1600x1200 (21-inch monitor)</option>
+                </select>
+         	</div>
+        </div><br />
         
 		<input class="button1" type="button" value="Add More Files" onclick="new_file_input('url');" id="more_files_button" /> 
 		<input class="button1" type="button" value="Start Uploading" onclick="toggle_lightbox('index.php?act=upload_in_progress', 'progress_bar_lightbox'); $('form[id=upload_form]').submit();" />
