@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1254124378 - Monday, September 28, 2009, 03:52:58 AM EDT -0400
+	// LTE: 1254208384 - Tuesday, September 29, 2009, 03:13:04 AM EDT -0400
 	// ======================================== /
 	
 	class mmhclass_image_functions
@@ -377,18 +377,17 @@
 						
 						if (in_array($extension, array("png", "gif", "jpg", "jpeg")) == true) {	
 							$function_extension = str_replace("jpg", "jpeg", $extension);
+							
 							$image_function = "imagecreatefrom{$function_extension}";
-							
 							$image = $image_function($this->mmhclass->info->root_path.$this->mmhclass->info->config['upload_path'].$filename);
+							
 							$imageinfo = $this->get_image_info($this->mmhclass->info->root_path.$this->mmhclass->info->config['upload_path'].$this->basename($filename));
-							
 							$thumbnail_image = imagecreatetruecolor($thumbnail_size['w'], $thumbnail_size['h']);
-							imagecolortransparent($thumbnail_image, imagecolorallocate($thumbnail_image, 0, 0, 0));
 							
-							imagealphablending($thumbnail_image, false);
-							imagesavealpha($thumbnail_image, true);
+							$white = imagecolorallocate($thumbnail_image, 255, 255, 255);
+							imagefill($thumbnail_image, 0, 0, $white);
 							
-							imagecopyresized($thumbnail_image, $image, 0, 0, 0, 0, $thumbnail_size['w'], $thumbnail_size['h'], $imageinfo['width'], $imageinfo['height']);
+							imagecopyresampled($thumbnail_image, $image, 0, 0, 0, 0, $thumbnail_size['w'], $thumbnail_size['h'], $imageinfo['width'], $imageinfo['height']);
 							$image_savefunction = sprintf("image%s", (($this->mmhclass->info->config['thumbnail_type'] == "jpeg") ? "jpeg" : "png"));
 							
 							$image_savefunction($thumbnail_image, $this->mmhclass->info->root_path.$this->mmhclass->info->config['upload_path'].$thumbnail);
