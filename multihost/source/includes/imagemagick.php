@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1254208384 - Tuesday, September 29, 2009, 03:13:04 AM EDT -0400
+	// LTE: 1254250993 - Tuesday, September 29, 2009, 03:03:13 PM EDT -0400
 	// ======================================== /
 	
 	class mmhclass_image_functions
@@ -384,8 +384,12 @@
 							$imageinfo = $this->get_image_info($this->mmhclass->info->root_path.$this->mmhclass->info->config['upload_path'].$this->basename($filename));
 							$thumbnail_image = imagecreatetruecolor($thumbnail_size['w'], $thumbnail_size['h']);
 							
-							$white = imagecolorallocate($thumbnail_image, 255, 255, 255);
-							imagefill($thumbnail_image, 0, 0, $white);
+							$index = imagecolortransparent($thumbnail_image);
+							
+							if ($index < 0) {
+								$white = imagecolorallocate($thumbnail_image, 255, 255, 255);
+								imagefill($thumbnail_image, 0, 0, $white);
+							}
 							
 							imagecopyresampled($thumbnail_image, $image, 0, 0, 0, 0, $thumbnail_size['w'], $thumbnail_size['h'], $imageinfo['width'], $imageinfo['height']);
 							$image_savefunction = sprintf("image%s", (($this->mmhclass->info->config['thumbnail_type'] == "jpeg") ? "jpeg" : "png"));
