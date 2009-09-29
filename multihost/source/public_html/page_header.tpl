@@ -26,7 +26,7 @@
     <script type="text/javascript" src="source/includes/scripts/jquery.dimensions.js"></script>
 </head>
 <body class="page_cell">
-	<div class="logo">&nbsp;</div>
+	<a href="index.php" style="text-decoration: none;"><div class="logo">&nbsp;</div></a>
     
 	<div class="nav_menu">
 		<ul>
@@ -67,6 +67,7 @@
     <if="stripos($mmhclass->input->server_vars['http_user_agent'], "MSIE 6.0") !== false && stripos($mmhclass->input->server_vars['http_user_agent'], "MSIE 8.0") === false && stripos($mmhclass->input->server_vars['http_user_agent'], "MSIE 7.0") === false">
        <div class="slideout_warning">
             <span class="picture ie_picture">&nbsp;</span>
+            
             <span class="info">
                 <h1>Unsupported Web Browser</h1>
                 The web browser that you are running is not supported. 
@@ -77,6 +78,7 @@
         <noscript>
            <div class="slideout_warning">
                 <span class="picture">&nbsp;</span>
+                
                 <span class="info">
                     <h1>JavaScript is Disabled!</h1>
                     Your browser currently has JavaScript disabled or does not support it.
@@ -85,5 +87,7 @@
             </div>
         </noscript>
     </endif>
+        
+    <div style="clear: both;"></div>
     
 	<div id="page_body" class="page_body">
