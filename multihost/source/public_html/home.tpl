@@ -165,7 +165,7 @@ Max filesize is set at: <# MAX_FILESIZE #> per image file. <span id="more_instru
                 <br /><br />
                     
                 <if="$mmhclass->info->is_user == true && $mmhclass->templ->templ_globals['hide_upload_to'] == false">
-                    &bull; Upload to: 
+                    &bull; Upload To: 
                     <select name="upload_to" style="width: 220px;">
                         <option value="0" selected="selected">Root Album</option>
                         
