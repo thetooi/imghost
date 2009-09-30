@@ -4,7 +4,7 @@
 	// Version: 5.0.0
 	// Copyright (c) 2007, 2008, 2009 Mihalism Technologies
 	// License: http://www.gnu.org/licenses/gpl.txt GNU Public License
-	// LTE: 1252816799 - Sunday, September 13, 2009, 12:39:59 AM EDT -0400
+	// LTE: 1254301731 - Wednesday, September 30, 2009, 05:08:51 AM EDT -0400
 	// ======================================== /
 	
 	//
@@ -68,7 +68,7 @@
 	$mmhclass->info->script_path = ((($path = dirname($mmhclass->input->server_vars['php_self'])) == "/") ? $path : "{$path}/");
 			
 	$mmhclass->image->manipulator = ((USE_IMAGICK_LIBRARY == true) ? "imagick" : ((USE_GD_LIBRARY == true || USE_GD2_LIBRARY == true) ? "gd" : $mmhclass->templ->fatal_error($mmhclass->lang['7414'])));
-			
+	 
 	if (version_compare(PHPVERSION, "5.0.0", "<") == true) { 
 		$mmhclass->templ->fatal_error(sprintf($mmhclass->lang['9553'], $mmhclass->info->version));
 	}	
@@ -76,6 +76,17 @@
 	if (version_compare(PHPVERSION, "5.1.0", ">=") == true) { 
 		if (ini_get("date.timezone") == false) {
 			date_default_timezone_set(DEFAULT_TIME_ZONE);
+		}
+	}
+	
+	if (MONITOR_CPU_LOAD == true && IS_WINDOWS_OS == false) {
+		$load_average = sys_getloadavg();
+		
+		if ($load_average['0'] > MAX_CPU_LOAD) {
+			// Header and exit taken right from the PHP Manual
+			
+			header("HTTP/1.1 503 Too busy, try again later");
+   			output_fatal_error("Server too busy. Please try again later.");
 		}
 	}
 	
