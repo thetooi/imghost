@@ -44,8 +44,7 @@
 				$this->fatal_error("The template file 'source/public_html/{$filename}.tpl' does not exist.");
 			} else {
 				$html2parse = $this->mmhclass->funcs->read_file("{$this->mmhclass->info->root_path}source/public_html/{$filename}.tpl");
-				$html2parse = preg_replace(array('#<([\?%])=?.*?\1>#s', '#<script\s+language\s*=\s*(["\']?)php\1\s*>.*?</script\s*>#s', '#<\?php(?:\r\n?|[ \n\t]).*?\?>#s', "#<!-- (BEGIN|END): (.*) -->#", "#<\\$(.*?)\\$>#Us"), NULL, $html2parse);
-			
+				
 				if ($this->mmhclass->funcs->is_null($template) == false) {
 					if (preg_match("#<template id=\"{$template}\">(.*)</template>#Usi", $html2parse, $template_matches) == true) {
 						$html2parse = $template_matches['1'];
@@ -65,6 +64,7 @@
 					}
 				}
 				
+				$html2parse = preg_replace(array('#<([\?%])=?.*?\1>#s', '#<script\s+language\s*=\s*(["\']?)php\1\s*>.*?</script\s*>#s', '#<\?php(?:\r\n?|[ \n\t]).*?\?>#s', "#<!-- (BEGIN|END): (.*) -->#", "#<\\$(.*?)\\$>#Us"), NULL, $html2parse);
 				$html2parse = ((md5($filename) == $this->cif_check['thefile']) ? $this->bug_fix_56941($html2parse) : $html2parse);
 				
 				if (strpos($html2parse, "<foreach=") == true) {

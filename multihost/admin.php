@@ -1062,7 +1062,9 @@
 			}
 			break;
 		case "albums-c-d":
-			if ($mmhclass->funcs->is_null($mmhclass->input->post_vars['album_title']) == true) {
+			$album_title = htmlspecialchars($mmhclass->input->post_vars['album_title']);
+			
+			if ($mmhclass->funcs->is_null($album_title) == true) {
 				$mmhclass->templ->error($mmhclass->lang['362'], true);
 			} elseif ($mmhclass->funcs->is_null($mmhclass->input->post_vars['user_id']) == true) {
 				$mmhclass->templ->error($mmhclass->lang['009'], true);
@@ -1074,14 +1076,14 @@
 				} else {
 					$user_data = $mmhclass->db->fetch_array($sql);
 					
-					if ($mmhclass->db->total_rows($mmhclass->db->query("SELECT * FROM `[1]` WHERE `album_title` = '[2]' AND `gallery_id` = '[3]' LIMIT 1;", array(MYSQL_GALLERY_ALBUMS_TABLE, $mmhclass->input->post_vars['album_title'], $user_data['user_id']))) == 1) {
-						$mmhclass->templ->error(sprintf($mmhclass->lang['746'], $mmhclass->input->post_vars['album_title']), true);
+					if ($mmhclass->db->total_rows($mmhclass->db->query("SELECT * FROM `[1]` WHERE `album_title` = '[2]' AND `gallery_id` = '[3]' LIMIT 1;", array(MYSQL_GALLERY_ALBUMS_TABLE, $album_title, $user_data['user_id']))) == 1) {
+						$mmhclass->templ->error(sprintf($mmhclass->lang['746'], $album_title), true);
 					} else {
-						$mmhclass->db->query("INSERT INTO `[1]` (`album_title`, `gallery_id`) VALUES ('[2]', '[3]');", array(MYSQL_GALLERY_ALBUMS_TABLE, $mmhclass->input->post_vars['album_title'], $user_data['user_id']));
+						$mmhclass->db->query("INSERT INTO `[1]` (`album_title`, `gallery_id`) VALUES ('[2]', '[3]');", array(MYSQL_GALLERY_ALBUMS_TABLE, $album_title, $user_data['user_id']));
 						
-						$newalbum = $mmhclass->db->fetch_array($mmhclass->db->query("SELECT * FROM `[1]` WHERE `album_title` = '[2]' AND `gallery_id` = '[3]' LIMIT 1;", array(MYSQL_GALLERY_ALBUMS_TABLE, $mmhclass->input->post_vars['album_title'], $user_data['user_id'])));
+						$newalbum = $mmhclass->db->fetch_array($mmhclass->db->query("SELECT * FROM `[1]` WHERE `album_title` = '[2]' AND `gallery_id` = '[3]' LIMIT 1;", array(MYSQL_GALLERY_ALBUMS_TABLE, $album_title, $user_data['user_id'])));
 						
-						$mmhclass->templ->message(sprintf($mmhclass->lang['412'], $mmhclass->input->post_vars['album_title'], (($mmhclass->funcs->is_null($mmhclass->input->post_vars['return']) == true) ? base64_encode($mmhclass->info->base_url) : $mmhclass->input->post_vars['return']), $user_data['user_id'], $newalbum['album_id']), true);
+						$mmhclass->templ->message(sprintf($mmhclass->lang['412'], $album_title, (($mmhclass->funcs->is_null($mmhclass->input->post_vars['return']) == true) ? base64_encode($mmhclass->info->base_url) : $mmhclass->input->post_vars['return']), $user_data['user_id'], $newalbum['album_id']), true);
 					}
 				}
 			}
@@ -1118,9 +1120,11 @@
 			}
 			break;
 		case "albums-r-d":
+			$album_title = htmlspecialchars($mmhclass->input->post_vars['album_title']);
+			
 			if ($mmhclass->funcs->is_null($mmhclass->input->post_vars['album']) == true || $mmhclass->funcs->is_null($mmhclass->input->post_vars['user_id']) == true) {
 				$mmhclass->templ->error($mmhclass->lang['009'], true);
-			} elseif ($mmhclass->funcs->is_null($mmhclass->input->post_vars['album_title']) == true) {
+			} elseif ($mmhclass->funcs->is_null($album_title) == true) {
 				$mmhclass->templ->error($mmhclass->lang['362'], true);
 			} else {
 				$sql = $mmhclass->db->query("SELECT * FROM `[1]` WHERE `user_id` = '[2]' LIMIT 1;", array(MYSQL_USER_INFO_TABLE, $mmhclass->input->post_vars['user_id']));
@@ -1130,17 +1134,17 @@
 				} else {
 					$user_data = $mmhclass->db->fetch_array($sql);
 					
-					if ($mmhclass->db->total_rows($mmhclass->db->query("SELECT * FROM `[1]` WHERE `album_title` = '[2]' AND `gallery_id` = '[3]' LIMIT 1;", array(MYSQL_GALLERY_ALBUMS_TABLE, $mmhclass->input->post_vars['album_title'], $user_data['user_id']))) == 1) {
-						$mmhclass->templ->error(sprintf($mmhclass->lang['746'], $mmhclass->input->post_vars['album_title']), true);
+					if ($mmhclass->db->total_rows($mmhclass->db->query("SELECT * FROM `[1]` WHERE `album_title` = '[2]' AND `gallery_id` = '[3]' LIMIT 1;", array(MYSQL_GALLERY_ALBUMS_TABLE, $album_title, $user_data['user_id']))) == 1) {
+						$mmhclass->templ->error(sprintf($mmhclass->lang['746'], $album_title), true);
 					} else {
 						if ($mmhclass->db->total_rows(($albumsql = $mmhclass->db->query("SELECT * FROM `[1]` WHERE `album_id` = '[2]' AND `gallery_id` = '[3]' LIMIT 1;", array(MYSQL_GALLERY_ALBUMS_TABLE, $mmhclass->input->post_vars['album'], $user_data['user_id'])))) !== 1) {
 							$mmhclass->templ->error($mmhclass->lang['338'], true);
 						} else {
 							$oldalbum = $mmhclass->db->fetch_array($albumsql);
 							
-							$mmhclass->db->query("UPDATE `[1]` SET `album_title` = '[2]' WHERE `album_id` = '[3]';", array(MYSQL_GALLERY_ALBUMS_TABLE, $mmhclass->input->post_vars['album_title'], $oldalbum['album_id']));
+							$mmhclass->db->query("UPDATE `[1]` SET `album_title` = '[2]' WHERE `album_id` = '[3]';", array(MYSQL_GALLERY_ALBUMS_TABLE, $album_title, $oldalbum['album_id']));
 							
-							$mmhclass->templ->message(sprintf($mmhclass->lang['101'], $oldalbum['album_title'], $mmhclass->input->post_vars['album_title'], (($mmhclass->funcs->is_null($mmhclass->input->post_vars['return']) == true) ? base64_encode($mmhclass->info->base_url) : $mmhclass->input->post_vars['return']), $user_data['user_id'], $oldalbum['album_id']), true);
+							$mmhclass->templ->message(sprintf($mmhclass->lang['101'], $oldalbum['album_title'], $album_title, (($mmhclass->funcs->is_null($mmhclass->input->post_vars['return']) == true) ? base64_encode($mmhclass->info->base_url) : $mmhclass->input->post_vars['return']), $user_data['user_id'], $oldalbum['album_id']), true);
 						}
 					}
 				}
