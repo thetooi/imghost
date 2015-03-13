@@ -2,7 +2,7 @@
 <h4>This page only contains the downloads for the last official versions from Mihalism Technologies.</h4>
 
 
-&lt;hr&gt;
+<hr>
 
 
 The Mihalism Multi Host mission is to provide the best image hosting software in the world.<br>
