@@ -73,7 +73,7 @@
 					`cache_id` varchar(70) NOT NULL default '',
 					`cache_value` text NOT NULL,
 					PRIMARY KEY  (`cache_id`)
-				) TYPE=MyISAM;", array(MYSQL_ADMIN_CACHE_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_ADMIN_CACHE_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 					`ban_id` int(25) NOT NULL auto_increment,
@@ -81,7 +81,7 @@
 					`ban_type` tinyint(1) NOT NULL default '0',
 				  	`ban_value` text NOT NULL,
 				 	PRIMARY KEY  (`ban_id`)
-				) TYPE=MyISAM;", array(MYSQL_BAN_FILTER_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_BAN_FILTER_TABLE));
 				
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`log_id` int(25) NOT NULL auto_increment,
@@ -98,7 +98,7 @@
 				  	`image_views` int(32) NOT NULL default '1',
 				  	PRIMARY KEY  (`log_id`),
 				  	UNIQUE KEY `filename` (`filename`)
-				) TYPE=MyISAM;", array(MYSQL_FILE_LOGS_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_FILE_LOGS_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`rating_id` int(25) NOT NULL auto_increment,
@@ -110,7 +110,7 @@
 				  	`gallery_id` int(25) NOT NULL default '0',
 				  	PRIMARY KEY  (`rating_id`),
 				  	UNIQUE KEY `filename` (`filename`)
-				) TYPE=MyISAM;", array(MYSQL_FILE_RATINGS_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_FILE_RATINGS_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`file_id` int(25) NOT NULL auto_increment,
@@ -122,7 +122,7 @@
 				  	`viewer_clicks` int(25) NOT NULL default '1',
 				  	PRIMARY KEY  (`file_id`),
 				  	UNIQUE KEY `filename` (`filename`)
-				) TYPE=MyISAM;", array(MYSQL_FILE_STORAGE_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_FILE_STORAGE_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`album_id` int(25) NOT NULL auto_increment,
@@ -131,14 +131,14 @@
 				  	`password` varchar(32) NOT NULL default '',
 				  	`is_private` tinyint(1) NOT NULL default '0',
 				  	PRIMARY KEY  (`album_id`)
-				) TYPE=MyISAM;", array(MYSQL_GALLERY_ALBUMS_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_GALLERY_ALBUMS_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`robot_id` int(25) NOT NULL auto_increment,
 				  	`preg_match` varchar(255) NOT NULL,
 				  	`robot_name` varchar(100) NOT NULL,
 				  	PRIMARY KEY  (`robot_id`)
-				) TYPE=MyISAM;", array(MYSQL_ROBOT_INFO_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_ROBOT_INFO_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`log_id` int(25) NOT NULL auto_increment,
@@ -149,20 +149,20 @@
 				  	`user_agent` varchar(255) NOT NULL,
 				  	`http_referer` tinytext NOT NULL,
 				  	PRIMARY KEY  (`log_id`)
-				) TYPE=MyISAM;", array(MYSQL_ROBOT_LOGS_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_ROBOT_LOGS_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`cache_id` varchar(70) NOT NULL default '',
 				 	`cache_value` text NOT NULL,
 				  PRIMARY KEY  (`cache_id`)
-				) TYPE=MyISAM;", array(MYSQL_SITE_CACHE_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_SITE_CACHE_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`config_key` varchar(70) NOT NULL default '',
 				 	`config_value` text NOT NULL,
 				  	PRIMARY KEY  (`config_key`),
 				  	UNIQUE KEY `config_key` (`config_key`)
-				) TYPE=MyISAM;", array(MYSQL_SITE_SETTINGS_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_SITE_SETTINGS_TABLE));
 				
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`password_id` int(25) NOT NULL auto_increment,
@@ -174,7 +174,7 @@
 				  	PRIMARY KEY  (`password_id`),
 				  	UNIQUE KEY `password` (`new_password`),
 				  	UNIQUE KEY `auth_key` (`auth_key`)
-				) TYPE=MyISAM;", array(MYSQL_USER_PASSWORDS_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_USER_PASSWORDS_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`user_id` int(25) NOT NULL auto_increment,
@@ -188,7 +188,7 @@
 				  	`upload_type` varchar(8) NOT NULL default 'standard',
 				  	PRIMARY KEY  (`user_id`),
 				  	UNIQUE KEY `username` (`username`)
-				) TYPE=MyISAM;", array(MYSQL_USER_INFO_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_USER_INFO_TABLE));
 
 				$mmhclass->db->install_queries[] = array("CREATE TABLE `[1]` (
 				  	`session_id` varchar(32) NOT NULL default '',
@@ -197,7 +197,7 @@
 				  	`ip_address` varchar(15) NOT NULL default '',
 				  	`user_agent` varchar(255) NOT NULL,
 				  	PRIMARY KEY  (`session_id`)
-				) TYPE=MyISAM;", array(MYSQL_USER_SESSIONS_TABLE));
+				) ENGINE=MyISAM;", array(MYSQL_USER_SESSIONS_TABLE));
 
 				$mmhclass->db->install_queries[] = array("INSERT INTO `[1]` (`cache_id`, `cache_value`) VALUES ('page_views', '1');", array(MYSQL_SITE_CACHE_TABLE));
 
